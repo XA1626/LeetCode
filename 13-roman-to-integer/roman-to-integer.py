@@ -1,16 +1,20 @@
 class Solution:
     def romanToInt(self, s: str) -> int:
-        roman = {'I':1, 'V':5, 'X':10, 'L':50,
-                 'C':100, 'D':500, 'M':1000}
-        
-        result = 0
-        for i in range(len(s)):
-            curr = roman[s[i]]
-            next_val = roman[s[i+1]] if i+1 < len(s) else 0
-            
-            if curr < next_val:
-                result -= curr
+        res = 0
+        roman = {
+            'I': 1,
+            'V': 5,
+            'X': 10,
+            'L': 50,
+            'C': 100,
+            'D': 500,
+            'M': 1000
+        }
+
+        for a, b in zip(s, s[1:]):
+            if roman[a] < roman[b]:
+                res -= roman[a]
             else:
-                result += curr
-        
-        return result
+                res += roman[a]
+
+        return res + roman[s[-1]] 
