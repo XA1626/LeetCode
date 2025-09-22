@@ -1,20 +1,21 @@
 function isValid(s: string): boolean {
     const stack: string[] = [];
-    const openingBrackets = new Set(['(', '{', '[']);
-    const bracketPairs: Record<string, string> = {
+    const bracketMap: Record<string, string> = {
         ')': '(',
         '}': '{',
         ']': '['
     };
     
     for (const char of s) {
-        if (openingBrackets.has(char)) {
-            stack.push(char);
-        } else {
+        if (char in bracketMap) {
+            // It's a closing bracket
             const top = stack.pop();
-            if (top !== bracketPairs[char]) {
+            if (top !== bracketMap[char]) {
                 return false;
             }
+        } else {
+            // It's an opening bracket
+            stack.push(char);
         }
     }
     
