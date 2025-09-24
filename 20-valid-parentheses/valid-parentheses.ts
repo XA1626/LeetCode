@@ -1,26 +1,33 @@
 function isValid(s: string): boolean {
     const stack: string[] = [];
-    const bracketMap: { [key: string]: string } = {
+    const bracketPairs: { [key: string]: string } = {
         ')': '(',
         '}': '{',
         ']': '['
     };
     
-    for (let char of s) {
+    for (let i = 0; i < s.length; i++) {
+        const char = s[i];
+        
+        // If it's an opening bracket, push to stack
+        if (char === '(' || char === '{' || char === '[') {
+            stack.push(char);
+        } 
         // If it's a closing bracket
-        if (bracketMap[char]) {
-            // Check if the top of stack matches the corresponding opening bracket
-            const topElement = stack.length === 0 ? '#' : stack.pop()!;
-            if (topElement !== bracketMap[char]) {
+        else {
+            // Check if stack is empty (no matching opening bracket)
+            if (stack.length === 0) {
                 return false;
             }
-        } 
-        // If it's an opening bracket
-        else {
-            stack.push(char);
+            
+            // Check if the top of stack matches the expected opening bracket
+            const top = stack.pop()!;
+            if (top !== bracketPairs[char]) {
+                return false;
+            }
         }
     }
     
-    // If stack is empty, all brackets were properly closed
+    // If stack is empty, all brackets were properly matched
     return stack.length === 0;
 }
