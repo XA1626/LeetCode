@@ -1,18 +1,15 @@
 class Solution {
     fun twoSum(nums: IntArray, target: Int): IntArray {
-        val numToIndex = mutableMapOf<Int, Int>()
+        val map = HashMap<Int, Int>()
         
         for ((index, num) in nums.withIndex()) {
             val complement = target - num
-            
-            if (numToIndex.containsKey(complement)) {
-                return intArrayOf(numToIndex[complement]!!, index)
+            if (map.containsKey(complement)) {
+                return intArrayOf(map[complement]!!, index)
             }
-            
-            numToIndex[num] = index
+            map[num] = index
         }
         
-        // Since problem guarantees exactly one solution, we'll always return above
-        return intArrayOf()
+        throw IllegalArgumentException("No two sum solution")
     }
 }
