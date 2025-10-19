@@ -1,7 +1,10 @@
-class Solution:
-    def romanToInt(self, s: str) -> int:
-        res = 0
-        roman = {
+class Solution(object):
+    def romanToInt(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        roman_values = {
             'I': 1,
             'V': 5,
             'X': 10,
@@ -10,11 +13,21 @@ class Solution:
             'D': 500,
             'M': 1000
         }
-
-        for a, b in zip(s, s[1:]):
-            if roman[a] < roman[b]:
-                res -= roman[a]
+        
+        total = 0
+        prev_value = 0
+        
+        # Iterate through the string from right to left
+        for char in reversed(s):
+            current_value = roman_values[char]
+            
+            # If current value is less than previous value, subtract it
+            # Otherwise, add it
+            if current_value < prev_value:
+                total -= current_value
             else:
-                res += roman[a]
-
-        return res + roman[s[-1]] 
+                total += current_value
+            
+            prev_value = current_value
+        
+        return total
